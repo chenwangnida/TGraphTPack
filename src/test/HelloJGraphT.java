@@ -83,7 +83,7 @@ public final class HelloJGraphT
         }
         
         
-    	stringGraph.removeVertex(dangleVertice);
+//    	stringGraph.removeVertex(dangleVertice);
 //    	System.out.println("removed edge:"+v);
 //    	System.out.println(stringGraph.toString());
     }
