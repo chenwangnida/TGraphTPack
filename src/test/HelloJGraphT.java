@@ -38,6 +38,7 @@ package test;
 
 
 import java.net.*;
+import java.util.Set;
 
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
@@ -64,14 +65,27 @@ public final class HelloJGraphT
     {
         UndirectedGraph<String, DefaultEdge> stringGraph = createStringGraph();
 
-        // note undirected edges are printed as: {<v1>,<v2>}
-        System.out.println(stringGraph.toString());
-
-        // create a graph based on URL objects
-        DirectedGraph<URL, DefaultEdge> hrefGraph = createHrefGraph();
-
-        // note directed edges are printed as: (<v1>,<v2>)
-        System.out.println(hrefGraph.toString());
+        System.out.println("graph printing "+stringGraph.toString());
+        Set<DefaultEdge> allEdgefromOnetoAntoher = stringGraph.getAllEdges("v1", "v2");
+        Set<DefaultEdge> allEdge = stringGraph.edgeSet();
+        Set<String> allVertice = stringGraph.vertexSet();
+ 
+        String dangleVertice;
+        for (String v : allVertice) {
+	        System.out.println("vertice iterator:"+v.toString());
+	        int relatedEdges = stringGraph.degreeOf(v);  
+	        System.out.println("degree is :"+relatedEdges);
+	       
+	        if(relatedEdges == 1 && (!v.equals("v1")&&!v.equals("v5"))){
+	    	   dangleVertice = v;
+	        System.out.println("dangleVertice:"+v);
+	        }
+        }
+        
+        
+    	stringGraph.removeVertex(dangleVertice);
+//    	System.out.println("removed edge:"+v);
+//    	System.out.println(stringGraph.toString());
     }
 
     /**
@@ -119,18 +133,25 @@ public final class HelloJGraphT
         String v2 = "v2";
         String v3 = "v3";
         String v4 = "v4";
-
+        String v5 = "v5";
+        String v6 = "v6";
+        
+        
         // add the vertices
         g.addVertex(v1);
         g.addVertex(v2);
         g.addVertex(v3);
         g.addVertex(v4);
-
+        g.addVertex(v5);
+        g.addVertex(v6);
+        
+        
         // add edges to create a circuit
         g.addEdge(v1, v2);
         g.addEdge(v2, v3);
+        g.addEdge(v3, v6);
         g.addEdge(v3, v4);
-        g.addEdge(v4, v1);
+        g.addEdge(v4, v5);
 
         return g;
     }
